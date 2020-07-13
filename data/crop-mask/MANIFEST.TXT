@@ -1,0 +1,10 @@
+readme_v1r1_geotiff.txt (text/plain) 4140 bytes.
+readme_v1r1_global.txt (text/plain) 5497 bytes.
+spam2010v1r1_global_harv_area.csv.zip (application/zip) 144763475 bytes.
+spam2010v1r1_global_harv_area.dbf.zip (application/zip) 166627381 bytes.
+spam2010v1r1_global_harv_area.geotiff.zip (application/zip) 143951469 bytes.
+spam2010v1r1_global_phys_area.csv.zip (application/zip) 144551773 bytes.
+spam2010v1r1_global_phys_area.dbf.zip (application/zip) 166393608 bytes.
+spam2010v1r1_global_phys_area.geotiff.zip (application/zip) 143771890 bytes.
+spam2010v1r1_global_prod.csv.zip (application/zip) 156411047 bytes.
+Production data in DBF format/spam2010v1r1_global_prod.dbf.zip (application/zip) 179149650 bytes.

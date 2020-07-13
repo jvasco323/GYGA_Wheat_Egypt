@@ -1,0 +1,15 @@
+
+Version: 1.0
+AgroManagement:
+
+- 2014-08-01:
+    CropCalendar:
+       crop_name: 'wheat'
+       variety_name: 'Winter_wheat_107'
+       crop_start_date: 2014-11-15
+       crop_start_type: sowing
+       crop_end_date: 2015-04-27
+       crop_end_type: maturity
+       max_duration: 340
+    TimedEvents: null
+    StateEvents: null 

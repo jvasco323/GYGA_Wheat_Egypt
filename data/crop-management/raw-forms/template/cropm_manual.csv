@@ -1,0 +1,19 @@
+Variable,Description,Format
+station_name,Weather Station name,Text
+cropping_system,GYGA cropping system,Text
+per_rainfed,Percentage of rainfed wheat in the region,Number between 0 and 100 (percentage)
+per_irrigated,Percentage of irrigated wheat in the region,Number between 0 and 100 (percentage)
+irrigation_type,Main type of irrigation used in the region,Text: choose one option among those two: pivot ; drip
+main_soil_type,Briefly describe main features of most important soil type in the region on which the wheat is usually grown,Text: no more than 50 characters
+per_main_soil_type,Percentage of main soil type in the region,Number between 0 and 100 (percentage)
+main_crop_rotation,Description of the most common crop rotation,"Text: crop names separated by slashes ""/"" ; no white space ; (wheat/soybean/maize)"
+per_crop_main_rotation,Percentage of wheat in main rotation,Number between 0 and 100 (percentage)
+sowing_window_start,Earliest day of the plausible sowing window,"Date: 2 digits for day followed by 2 digits for month separated by a slash ""/"". (ex 15/03)"
+sowing_window_end,Latest day of the plausible sowing window,idem
+harvest_period_start,Earliest day of the plausible harvest period,idem
+harvest_period_end,Latest day of the plausible harvest period,idem
+main_cultivar,Name of the most widely use cultivar in the region,Text
+ndays_emergence_to_flowering,Number of days from emergence to flowering given as a range,"Number: 2 or 3 digits for lower bound and 2 or 3 digits for upper bound separated by a semi column "";"". (ex: 95;105)"
+ndays_flowering_to_maturity,Number of days from seed set to maturity given as a range,idem
+harvest_index,Harvest Index,Number between 0 and 1 with maximum two decimals.
+comments,Additional information ; other comments,Text no more than 100 characters.

@@ -1,0 +1,27 @@
+
+# Parameter file for PCSE runs for AgMIP Potato Pilot
+# Date: 28 August 2017
+# Author: Joao Vasco Silva (joao.silva@wur.nl)
+# Plant Production Systems, Wageningen UR
+# Physical soil properties to run WOFOST v7.1
+
+
+# Profile identification
+
+SOLNAM = 'NL_Wageningen_2014'
+
+
+# Soil water retention
+
+SM0    = 0.4299618  # Soil moisture content at saturation [cm3/cm3]             pF = -1.0
+SMFCF  = 0.3129386  # Soil moisture content at field capacity [cm3/cm3]       pF =  2.2
+SMW    = 0.1422093  # Soil moisture content at wilting point [cm3/cm3]          pF =  4.2
+CRAIRC = 0.0100000  # Critical soil air content for aeration [cm3/cm3]
+
+
+# Hydraulic conductivity
+
+K0     = 22.5083262  # Hydraulic conductivity of saturated soil [cm day-1]        
+KSUB   = 22.5083262  # Maximum percolation rate subsoil [cm day-1]              
+SOPE   = 22.5083262  # Maximum percolation rate root zone [cm day-1]            
+RDMSOL = 100.0  # Maximum rootable depth of the soil [cm]
