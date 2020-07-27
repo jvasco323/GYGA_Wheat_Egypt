@@ -9,11 +9,11 @@
 
 which_nearest <- function(x, target){
   
-  if(is_tibble(x) || is.data.frame(x)){
+  if(tibble::is_tibble(x) || is.data.frame(x)){
     x <- deframe(x)
   }
   
-  if(is_tibble(target) || is.data.frame(target)){
+  if(tibble::is_tibble(target) || is.data.frame(target)){
     target <- deframe(target)
   }
   
@@ -51,7 +51,7 @@ which_nearest <- function(x, target){
 
 extract_nearest <- function(x, target){
   
-  if(is_tibble(target) || is.data.frame(target)){
+  if(tibble::is_tibble(target) || is.data.frame(target)){
     target[which_nearest(x, target), ]
   } else {
     target[which_nearest(x, target)]
@@ -74,7 +74,7 @@ dd_to_csd <- function(TSUM, dtemp){
     dtemp[which_nearest(TSUM, dtemp[,"TSUM"]), "csd"]
   }
   
-  if(is_tibble(TSUM) || is.data.frame(TSUM)){
+  if(tibble::is_tibble(TSUM) || is.data.frame(TSUM)){
     TSUM <- deframe(TSUM)
   }
   
@@ -82,10 +82,9 @@ dd_to_csd <- function(TSUM, dtemp){
     stop("The number of elements in TSUM must be equal to the number of years in dtemp")
   }
   
-  map2(.x = TSUM,
-       .y = split(dtemp, dtemp$crop_year),
-       ~ dd_to_csd_atom(TSUM = .x , dtemp = .y)) %>%
-    reduce(rbind)
+  purrr::map2_dbl(.x = TSUM,
+                  .y = split(dtemp, dtemp$crop_year),
+                  ~ dd_to_csd_atom(TSUM = .x , dtemp = .y))
   
 }
 
@@ -105,7 +104,7 @@ csd_to_dd <- function(csd, dtemp){
     dtemp[which_nearest(csd, dtemp[,"csd"]), "TSUM"]
   }
   
-  if(is_tibble(csd) || is.data.frame(csd)){
+  if(tibble::is_tibble(csd) || is.data.frame(csd)){
     csd <- deframe(csd)
   }
   
@@ -113,30 +112,30 @@ csd_to_dd <- function(csd, dtemp){
     stop("The number of elements in csd must be equal to the number of years in dtemp")
   }
   
-  map2_dbl(.x = csd,
-           .y = split(dtemp, dtemp$crop_year),
-           ~ csd_to_dd_atom(csd = .x , dtemp = .y))
+  purrr::map2_dbl(.x = csd,
+                  .y = split(dtemp, dtemp$crop_year),
+                  ~ csd_to_dd_atom(csd = .x , dtemp = .y))
   
 }
 
 
-compute_dd <- function(dtemp_year) {
+compute_dd <- function(dtemp_year, WOFOST_params) {
   
   dtemp_year$TSUM <- vector("numeric", nrow(dtemp_year))
   for (i in 1:length(dtemp_year$csd)) {
     
     ### Before emergence
-    if(dtemp_year$TSUM[i] < TSUMEM) {
+    if(dtemp_year$TSUM[i] < WOFOST_params$TSUMEM) {
       
       avg_temp <- (dtemp_year$TMAX[i] + dtemp_year$TMIN[i]) / 2
       
       # Correct for max efficient temperature for emergence
-      if(avg_temp >= TEFFMX) {
-        avg_temp <- TEFFMX
+      if(avg_temp >= WOFOST_params$TEFFMX) {
+        avg_temp <- WOFOST_params$TEFFMX
       }
       
       ## Degree days
-      dtemp_year$dd[i] <- avg_temp - TBASEM
+      dtemp_year$dd[i] <- avg_temp - WOFOST_params$TBASEM
       
       ## Temperature sum
       # Handle initial condition
@@ -153,15 +152,116 @@ compute_dd <- function(dtemp_year) {
       
       # Correct for max efficient temperature for development
       # Tmax is derived from DTSMTB (last value)
-      if(avg_temp >= Tmax) {
-        avg_temp <- Tmax
+      if(avg_temp >= WOFOST_params$Tmax) {
+        avg_temp <- WOFOST_params$Tmax
       }
       
       ## Degree days
-      dtemp_year$dd[i] <- avg_temp - TBASE
+      dtemp_year$dd[i] <- avg_temp - WOFOST_params$TBASE
       ## Temperature sum
       dtemp_year$TSUM[i] <- dtemp_year$TSUM[i-1] + dtemp_year$dd[i]
     }
   }
   return(dtemp_year)
+}
+
+process_weather_data <- function(weather_data_raw){
+  
+  day <- as.Date(weather_data_raw$DAY)
+  days <- data.frame(DAY = weather_data_raw$DAY, 
+                     Year = as.numeric(format(day, format = "%Y")), 
+                     Month = as.numeric(format(day, format = "%m")), 
+                     Day = as.numeric(format(day, format = "%d")))
+  weather_data <- merge(weather_data_raw, days, by = 'DAY')
+  
+  return(weather_data)
+}
+
+
+compute_TSUM <- function(weather_data, sowing_date, WOFOST_params, intD1, intD2) {
+  
+  # Make sure years are ordered properly 
+  stopifnot(all(sowing_date$year == sort(sowing_date$year)))
+  stopifnot(all(weather_data$Year == sort(weather_data$Year)))
+  
+  ## Take mean of duration provided by agronomists
+  # Number of days between emergence and anthesis
+  D1 <- ceiling(mean(intD1))
+  # Number of days between anthesis and harvest
+  D2 <- ceiling(mean(intD2))
+  
+  # Select only time and temperature variables in weather data
+  dtemp <- weather_data[weather_data$Year %in% sowing_date$year,
+                        c("Year", "Month", "Day", "TMIN", "TMAX")]
+  
+  # Add a column with date in Julian days
+  dtemp$juld <- paste(dtemp$Year, dtemp$Month, dtemp$Day, sep = "-")
+  dtemp$juld <- lubridate::yday(lubridate::as_date(dtemp$juld))
+  
+  # Make sure all weather variables are numeric
+  dtemp[] <- lapply(dtemp, as.numeric)
+  
+  #  The sowing date correspond to the first Cropping Season Day (csd)
+  sowing_date$csd <- 1
+  
+  # Include cropping season information in weather data.frame: crop_year and csd
+  # This must be done one a per year basis
+  include_cs_info <- function(.x, .y){
+    dplyr::full_join(.x, 
+                     .y[ , c("doy", "csd", "crop_year")], 
+                     by =  c("juld" = "doy"))
+  }
+  l_dtemp <-  mapply(include_cs_info, 
+                     split(dtemp, dtemp$Year),
+                     split(sowing_date, sowing_date$year),
+                     SIMPLIFY = FALSE)
+  dtemp <- Reduce(rbind, l_dtemp)
+  
+  
+  # So far all csd are NA but the sowing data
+  # Convert those NA to zeros
+  dtemp$csd[is.na(dtemp$csd)] <- 0
+  
+  # Increment missing csd and crop_year 
+  ref_year <- min(dtemp$crop_year, na.rm = TRUE) - 1
+  dtemp$crop_year[1] <- ref_year
+  for (i in 2:nrow(dtemp)) {
+    # Cropping season day
+    if(dtemp$csd[i-1] != 0 & dtemp$csd[i] != 1) {
+      dtemp$csd[i] <- dtemp$csd[i-1] + 1
+    }
+    # Cropping year
+    if(grepl("^\\d{4}$", dtemp$crop_year[i])) {
+      ref_year <- dtemp$crop_year[i]
+    } 
+    dtemp$crop_year[i] <- ref_year
+  }
+  
+  # Keep only crop years of interest, i.e discard crop year fragment
+  # at the very beginning of the period of interest
+  valid_years <- intersect(sowing_date$crop_year, dtemp$Year)
+  sowing_date <- sowing_date[sowing_date$crop_year %in% valid_years, ]
+  dtemp <- dtemp[dtemp$crop_year %in% valid_years, ]
+  
+  # Degree days calculation
+  l_dtemp <- lapply(split(dtemp, dtemp$crop_year), compute_dd, WOFOST_params)
+  dtemp <- Reduce(rbind, l_dtemp)
+  
+  # Process weather data and TSUMs
+  TSUM_sowing <- csd_to_dd(sowing_date$csd, dtemp)
+  
+  TSUM_emergence <- rep(WOFOST_params$TSUMEM, length(unique(dtemp$crop_year)))
+  date_emergence <- dd_to_csd(TSUM_emergence, dtemp)
+  
+  date_anthesis <- date_emergence + D1 
+  TSUM_anthesis <- csd_to_dd(date_anthesis, dtemp)
+  
+  date_maturity <- date_anthesis + D2
+  TSUM_maturity <- csd_to_dd(date_maturity, dtemp)
+  
+  # Calculate TSUM1 and TSUM2
+  TSUM <- data.frame(TSUM1 = TSUM_anthesis - WOFOST_params$TSUMEM, 
+                     TSUM2 = TSUM_maturity - TSUM_anthesis, 
+                     crop_year = valid_years)
+  return(TSUM)
 }

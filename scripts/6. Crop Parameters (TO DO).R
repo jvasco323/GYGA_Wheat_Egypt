@@ -42,14 +42,22 @@ Tmax <- 30
 # ================================================================================================== #
 
 # Nile Delta
-weather_nile_delta <- read_excel("./data/wofost-inputs/weather_nasa_NileDelta.xlsx", 
+weather_nile_delta <- read_excel("./data/wofost-inputs/weather_agera5_NileDelta.xlsx",
                                  sheet = "Sheet1")
+
 day <- as.Date(weather_nile_delta$DAY)
 days <- data.frame(DAY = weather_nile_delta$DAY, 
                    Year = as.numeric(format(day, format = "%Y")), 
                    Month = as.numeric(format(day, format = "%m")), 
                    Day = as.numeric(format(day, format = "%d")))
 weather_nile_delta <- merge(weather_nile_delta, days, by = 'DAY')
+
+
+
+# Make sure years are ordered properly 
+stopifnot(all(sowing_date$year == sort(sowing_date$year)))
+stopifnot(all(weather_nile_delta$Year == sort(weather_nile_delta$Year)))
+
 
 # Duration provided by agronomists
 intD1 <- c(80, 105)
@@ -62,48 +70,24 @@ dtemp <- weather_nile_delta %>%
   filter(Year %in% sowing_date$year) %>% # DO NOT FORGET TO UNCOMMENT
   select(Year, Month, Day, TMIN, TMAX)
 
-# Count number of missing days per year
-years <- unique(dtemp$Year)
-nb_data <- dtemp %>%
-  split(.$Year) %>%
-  map_dbl(nrow)
-nb_real <- ifelse(lubridate::leap_year(years), 366, 365)
-missing_dtemp <- tibble(years, nb_data, nb_real) %>%
-  mutate(nb_missing = nb_real - nb_data) %>%
-  as.data.frame()
-
 # Add a column with date in Julian days
 dtemp <- dtemp %>% 
   mutate(juld = paste(Year, Month, Day, sep = "-") %>% 
            as_date() %>% 
            yday())
-
-dtemp[] <- lapply(dtemp, as.numeric)
-tail(dtemp)
-
+dtemp[] <- map(dtemp, as.numeric)
 
 #  The sowing date correspond to the first Cropping Season Day (csd)
 sowing_date$csd <- 1
 
 # Include cropping season information in weather data.frame: crop_year and csd
-
-# foo <- inner_join(dtemp, 
-#                   select(sowing_date, year, crop_year),
-#                   by = c("Year" = "year"))
-# 
-# tail(foo)
-
 # This must be done one a per year basis
-
-# temp names
-a <- split(dtemp, dtemp$Year)
-b <- split(sowing_date, sowing_date$year)
-
 l_dtemp <- map2(
-  a,
-  b,
+  split(dtemp, dtemp$Year),
+  split(sowing_date, sowing_date$year),
   ~ full_join(.x, 
-              select(.y, doy, csd, crop_year), by =  c("juld" = "doy"))
+              select(.y, doy, csd, crop_year), 
+              by =  c("juld" = "doy"))
   )
 dtemp <- reduce(l_dtemp, rbind)
 
@@ -112,9 +96,7 @@ dtemp <- reduce(l_dtemp, rbind)
 dtemp$csd[is.na(dtemp$csd)] <- 0
 
 
-tail(dtemp)
 # Increment missing csd and crop_year 
-
 ref_year <- min(dtemp$crop_year, na.rm = TRUE) - 1
 dtemp$crop_year[1] <- ref_year
 for (i in 2:nrow(dtemp)) {
@@ -129,33 +111,25 @@ for (i in 2:nrow(dtemp)) {
   dtemp$crop_year[i] <- ref_year
 }
 
+# Keep only crop years of interest, i.e discard crop year fragment
+# at the very beginning of the period of interest
 
-dtemp[310:330, ]
-sowing_date
+valid_years <- intersect(sowing_date$crop_year, dtemp$Year)
+sowing_date <- sowing_date[sowing_date$crop_year %in% valid_years, ]
+dtemp <- dtemp[dtemp$crop_year %in% valid_years, ]
+
 
 # Degree days calculation
-# Exclude problematic years for the moment
-dtemp <- dtemp[!(dtemp$crop_year %in% c(2008, 2018, 2019)), ]
-sowing_date <- sowing_date[!(sowing_date$crop_year %in% c(2018, 2019)), ]
-
-dtemp %>%
-  filter(crop_year %in% sowing_date$crop_year) %>%
-  split(.$crop_year)%>%
-  map(dim)
-
-
-
 dtemp <- dtemp %>%
   split(.$crop_year) %>%
   map(compute_dd) %>%
   reduce(rbind)
-  
 
 # Process weather data and tsums
 TSUM_sowing <- csd_to_dd(sowing_date$csd, dtemp)
-TSUM_sowing
 
-date_emergence <- dd_to_csd(rep(TSUMEM, length(unique(dtemp$crop_year))), dtemp)
+TSUM_emergence <-rep(TSUMEM, length(unique(dtemp$crop_year)))
+date_emergence <- dd_to_csd(TSUM_emergence, dtemp)
 
 date_anthesis <- date_emergence + D1 
 TSUM_anthesis <- csd_to_dd(date_anthesis, dtemp)
@@ -165,11 +139,14 @@ TSUM_maturity <- csd_to_dd(date_maturity, dtemp)
 
 # Calculate TSUM1 and TSUM2
 TSUM <- tibble(TSUM1 = TSUM_anthesis - TSUMEM, 
-               TSUM2 = TSUM_maturity - TSUM_anthesis)
+               TSUM2 = TSUM_maturity - TSUM_anthesis, 
+               crop_year = valid_years)
+
+
 tidy_TSUM <- tidyr::pivot_longer(data = TSUM, 
                                  cols = c("TSUM1", "TSUM2"),
                                  names_to = "Parameter", values_to = "TSUM")
-mean_TSUMs <- map(TSUM, ~ round(mean(.x), digits = 0))
+
 
 # Plot temperature sums
 hist_TSUM <- ggplot(tidy_TSUM)+
