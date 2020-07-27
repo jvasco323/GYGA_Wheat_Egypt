@@ -6,7 +6,7 @@
 library(tidyverse)
 library(readxl)
 
-source("./scripts/# crop_parameters_funcs.R")
+source("./scripts/crop_parameters_funcs.R")
 
 # ================================================================================================== #
 # Load data ---------------------------------------------------------------------------------------- #
@@ -57,7 +57,7 @@ vargs_TSUM <- list(weather_data = l_weather_data,
                   intD2 = l_int_D2)
 
 ## Call the main function in the proper way: telling it which
-## arguments vary and which are constant accross weather stations
+## arguments vary and which are constant across weather stations
 list_TSUM <- purrr::pmap(
   vargs_TSUM, 
   ~ compute_TSUM(weather_data = ..1, 

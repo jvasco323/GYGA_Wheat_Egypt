@@ -177,6 +177,26 @@ process_weather_data <- function(weather_data_raw){
   return(weather_data)
 }
 
+#' Compute TSUM1 and TSUM2 for WOFOST
+#' 
+#' This function does the calculation for multiple years but only one weather 
+#' station at a time. 
+#' 
+#' @param weather_data A data.frame with the following columns: Year, Month, Day,
+#' TMIN, TMAX.
+#' @param sowing_date A data.frame with the following columns: crop_year, year, doy, csd.
+#' @param WOFOST_params A named list of the following WOFOST parameters: TSUMEM, 
+#' TBASEM, TEFFMX, TBASE, Tmax. Tmax is derived from DTSMTB and corresponds to the 
+#' daily average temperature above which there is no crop growth.
+#' @param intD1 A numeric vector of size 2 giving the lower and upper bound of the 
+#' number of days between emergence and anthesis as provided by the country agronomist.
+#' @param intd2 A numeric vector of size 2 giving the lower and upper bound of the 
+#' number of days between anthesis and maturity as provided by the country agronomist.
+#' 
+#' @return A data.frame with 3 columns: TSUM1, TSUM2 and crop_year
+#'
+#' @importFrom lubridate as_date yday
+#' @importFrom dplyr full_join
 
 compute_TSUM <- function(weather_data, sowing_date, WOFOST_params, intD1, intD2) {
   
