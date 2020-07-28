@@ -3,7 +3,8 @@
 # Global Yield Gap Atlas
 # ================================================================================================== #
 
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(readxl)
 
 source("./scripts/crop_parameters_funcs.R")
@@ -53,8 +54,8 @@ l_weather_data <- map(l_weather_data_raw, process_weather_data)
 
 ## Make a list of arguments varying by weather stations
 vargs_TSUM <- list(weather_data = l_weather_data,
-                  intD1 = l_int_D1,
-                  intD2 = l_int_D2)
+                   intD1 = l_int_D1,
+                   intD2 = l_int_D2)
 
 ## Call the main function in the proper way: telling it which
 ## arguments vary and which are constant across weather stations
