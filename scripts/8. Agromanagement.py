@@ -36,7 +36,7 @@ Season = """- {year_start}-{month_start_season}-{day_start_season}:
 # ----------------------------------------------------------------------------------------------------------------------
 # Spring wheat, Nile Delta
 
-year_start = np.arange(2009, 2020, 1)
+year_start = np.arange(2007, 2018, 1)
 month_start_season = "%02d" % 8
 day_start_season = "%02d" % 1
 
@@ -68,7 +68,7 @@ for year in np.nditer(year_start):
 # ----------------------------------------------------------------------------------------------------------------------
 # Spring wheat, Upper Egypt
 
-year_start = np.arange(2009, 2020, 1)
+year_start = np.arange(2007, 2018, 1)
 month_start_season = "%02d" % 8
 day_start_season = "%02d" % 1
 

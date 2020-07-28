@@ -19,7 +19,7 @@ output_dir = r'C:\# Jvasco\Working Papers\# Global Yield Gap Analysis\GYGA_Egypt
 # DEFINE SIMULATIONS
 # ----------------------------------------------------------------------------------------------------------------------
 
-years = range(2009, 2020)
+years = range(2007, 2018)
 crops = ['wheat']
 varie = ['Winter_wheat_107']
 sites = ['NileDelta', 'UpperEgypt']
@@ -90,8 +90,6 @@ for site in sites:
 summary = pd.read_csv(os.path.join(input_dir, r'./summary_wheat_egypt.csv'))
 summary['DOS'] = pd.to_datetime(summary['DOS'], format='%Y-%m-%d')
 summary['DOE'] = pd.to_datetime(summary['DOE'], format='%Y-%m-%d')
-summary['DOV'] = pd.to_datetime(summary['DOV'], format='%Y-%m-%d')
-summary['DOV_DOY'] = np.where(summary['DOV'].dt.dayofyear < 300, summary['DOV'].dt.dayofyear+365, summary['DOV'].dt.dayofyear)
 summary['DOA'] = pd.to_datetime(summary['DOA'], format='%Y-%m-%d')
 summary['DOM'] = pd.to_datetime(summary['DOM'], format='%Y-%m-%d')
 
@@ -112,25 +110,24 @@ for site in sites:
     # Crop development -------------------------------------------------------------------------------------------------
     ax1.plot(summary_subset['year'], summary_subset['DOS'].dt.dayofyear, color='royalblue', zorder=0, label='')
     ax1.plot(summary_subset['year'], summary_subset['DOE'].dt.dayofyear, color='royalblue', zorder=0, label='')
-    ax1.plot(summary_subset['year'], summary_subset['DOV_DOY'], color='royalblue', zorder=0, label='')
     ax1.plot(summary_subset['year'], summary_subset['DOA'].dt.dayofyear+365, color='orange', zorder=0, label='')
     ax1.plot(summary_subset['year'], summary_subset['DOM'].dt.dayofyear+365, color='forestgreen', zorder=0, label='')
     ax1.scatter(summary_subset['year'], summary_subset['DOS'].dt.dayofyear, marker='o', s=120, edgecolor='darkblue', color='royalblue', zorder=1, label='Sowing')
     ax1.scatter(summary_subset['year'], summary_subset['DOE'].dt.dayofyear, marker='s', s=110, edgecolor='darkblue', color='royalblue', zorder=3, label='Emergence')
-    ax1.scatter(summary_subset['year'], summary_subset['DOV_DOY'], marker='^', s=120, edgecolor='darkblue', color='royalblue', zorder=2, label='Vernalization')
     ax1.scatter(summary_subset['year'], summary_subset['DOA'].dt.dayofyear+365, marker='o', s=120, edgecolor='orangered', color='orange', zorder=1, label='Anthesis')
     ax1.scatter(summary_subset['year'], summary_subset['DOM'].dt.dayofyear+365, marker='o', s=120, edgecolor='darkgreen', color='forestgreen', zorder=2, label='Maturity')
     ax1.set_ylabel('Date of crop development stages (DOY)', family='sans-serif', fontsize=14, color='black')
     ax1.set_xlabel('Year of simulation (-)', family='sans-serif', fontsize=14, color='black')
-    ax1.set_xlim([2008, 2020])
-    ax1.set_xticklabels([2008, 2010, 2012, 2014, 2016, 2018, 2020], family='sans-serif', fontsize=13, color='black')
-    ax1.set_ylim([300, 550])
-    ax1.set_yticklabels([300, 350, 400-365, 450-365, 500-365, 550-365], family='sans-serif', fontsize=13, color='black')
+    ax1.set_xlim([2006, 2018])
+    ax1.set_xticklabels([2006, 2008, 2010, 2012, 2014, 2016, 2018], family='sans-serif', fontsize=13, color='black')
+    ax1.set_ylim([300, 600])
+    ax1.set_yticklabels([300, 350, 400-365, 450-365, 500-365, 550-365, 600-365], family='sans-serif', fontsize=13, color='black')
     ax1.axhline(366, color='black', zorder=0, label='DOY = 1')
-    ax1.axhline(365+100, color='black', linestyle='--', zorder=0, label='DOY = 100')
-    ax1.axhline(365+150, color='black', linestyle='-.', zorder=0, label='DOY = 150')
+    # ax1.axhline(365+100, color='black', linestyle='--', zorder=0, label='DOY = 100')
+    # ax1.axhline(365+150, color='black', linestyle='-.', zorder=0, label='DOY = 150')
+    # ax1.axhline(365+200, color='black', linestyle='-.', zorder=0, label='DOY = 150')
     ax1.set_facecolor('whitesmoke')
-    ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2), ncol=3, fancybox=True, shadow=False, fontsize=10, framealpha=1)
+    ax1.legend(loc='upper right', ncol=2, fancybox=True, shadow=False, fontsize=10, framealpha=1) # bbox_to_anchor=(0.5, 1.1)
     ax1.text(left, top - 0.015, 'A)', bbox=dict(facecolor='whitesmoke', edgecolor='none'), horizontalalignment='right', verticalalignment='top', transform=ax1.transAxes, family='sans-serif', fontsize=16)
     # Crop yield -------------------------------------------------------------------------------------------------------
     ax2.plot(summary_subset['year'], summary_subset['TAGP']/1000, color='royalblue', zorder=0, label='')
@@ -143,12 +140,12 @@ for site in sites:
     ax2.scatter(summary_subset['year'], summary_subset['TWSO']/1000, s=120, edgecolor='darkred', color='salmon', zorder=1, label='Grains')
     ax2.set_ylabel('Weight of crop organs (t DM/ha)', family='sans-serif', fontsize=14, color='black')
     ax2.set_xlabel('Year of simulation (-)', family='sans-serif', fontsize=14, color='black')
-    ax2.set_xlim([2008, 2020])
-    ax2.set_xticklabels([2008, 2010, 2012, 2014, 2016, 2018, 2020], family='sans-serif', fontsize=13, color='black')
+    ax2.set_xlim([2006, 2018])
+    ax2.set_xticklabels([2006, 2008, 2010, 2012, 2014, 2016, 2018], family='sans-serif', fontsize=13, color='black')
     ax2.set_ylim([0, 25])
     ax2.set_yticklabels([0, 5, 10, 15, 20, 25], family='sans-serif', fontsize=13, color='black')
     ax2.set_facecolor('whitesmoke')
-    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, 1.1), ncol=4, fancybox=True, fontsize=10, framealpha=1)
+    ax2.legend(loc='upper right', ncol=2, fancybox=True, fontsize=10, framealpha=1) # bbox_to_anchor=(0.5, 1.1)
     ax2.text(left, top - 0.015, 'B)', bbox=dict(facecolor='whitesmoke', edgecolor='none'), horizontalalignment='right', verticalalignment='top', transform=ax2.transAxes, family='sans-serif', fontsize=16)
     # ------------------------------------------------------------------------------------------------------------------
     plt.savefig(os.path.join(output_dir, r"./summary_wheat_{site}.pdf".format(site=site)), bbox_inches='tight')
