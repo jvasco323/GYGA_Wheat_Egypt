@@ -4,6 +4,7 @@
 # ================================================================================================== #
 
 library(dplyr)
+library(purrr)
 library(ggplot2)
 library(readxl)
 
@@ -56,7 +57,8 @@ list_TSUM <- purrr::pmap(
                  sowing_date = sowing_date, 
                  WOFOST_params = WOFOST_params_wheat,
                  intD1 = ..2,
-                 intD2 = ..3))
+                 intD2 = ..3)
+  )
 names(list_TSUM) <- c("nile_delta", "upper_egpyt")
 
 TSUM <- dplyr::bind_rows(list_TSUM, .id = "station_name")
@@ -68,13 +70,11 @@ tidy_TSUM <- tidyr::pivot_longer(data = TSUM,
 # Final temperature sums --------------------------------------------------------------------------- #
 # ================================================================================================== #
 
-nile_delta = subset(TSUM, station_name == 'nile_delta')
-upper_egypt = subset(TSUM, station_name != 'nile_delta')
+avg_TSUM <- tidy_TSUM %>%
+  group_by(station_name, Parameter) %>%
+  summarise(avg_TSUM = round(mean(TSUM), digits = 0), .groups = "drop")
 
-nile_TSUM1 = round(mean(nile_delta$TSUM1), 0)
-nile_TSUM2 = round(mean(nile_delta$TSUM2), 0)
-upper_TSUM1 = round(mean(upper_egypt$TSUM1), 0)
-upper_TSUM2 = round(mean(upper_egypt$TSUM2), 0)
+avg_TSUM
 
 # ================================================================================================== #
 # Plot temperature sums ---------------------------------------------------------------------------- #
@@ -85,15 +85,16 @@ hist_TSUM <- ggplot(tidy_TSUM)+
   geom_histogram(binwidth = 10, colour = "black")+
   xlab(expr(TSUM ~ degree*C.day^{-1}))+
   facet_wrap(. ~ station_name)
-hist_TSUM
 
-# TSUM_mean <- tidy_TSUM %>% 
-#   group_by(Parameter) %>% 
-#   summarise(value = round(mean(TSUM), digits = 0), .groups = "drop")
-# hist_TSUM + geom_vline(xintercept = TSUM_mean$value, linetype = "dashed", size = 1)
+
+hist_TSUM_avg <- hist_TSUM+ 
+  geom_vline(data = avg_TSUM, aes(xintercept = avg_TSUM), 
+             linetype = "dashed", size = 1)+
+  facet_wrap(. ~ station_name)
+  
 
 pdf("./data/wofost-inputs/crop-parameters/TSUM_Egypt.pdf",width=9,height=4)
-hist_TSUM
+hist_TSUM_avg
 dev.off()
 
 # ================================================================================================== #
