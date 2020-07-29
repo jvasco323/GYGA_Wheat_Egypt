@@ -119,6 +119,29 @@ csd_to_dd <- function(csd, dtemp){
 }
 
 
+csd_to_juld <- function(csd, dtemp){
+  
+  csd_to_juld_atom <- function(csd, dtemp) {
+    
+    dtemp[which_nearest(csd, dtemp[,"csd"]), "juld"]
+  }
+  
+  if(tibble::is_tibble(csd) || is.data.frame(csd)){
+    csd <- deframe(csd)
+  }
+  
+  if(length(csd) != length(unique(dtemp$crop_year))){
+    stop("The number of elements in csd must be equal to the number of years in dtemp")
+  }
+  
+  purrr::map2_dbl(.x = csd,
+                  .y = split(dtemp, dtemp$crop_year),
+                  ~ csd_to_juld_atom(csd = .x , dtemp = .y))
+  
+  
+}
+
+
 compute_dd <- function(dtemp_year, WOFOST_params) {
   
   dtemp_year$TSUM <- vector("numeric", nrow(dtemp_year))
@@ -278,10 +301,15 @@ compute_TSUM <- function(weather_data, sowing_date, WOFOST_params, intD1, intD2)
   
   date_maturity <- date_anthesis + D2
   TSUM_maturity <- csd_to_dd(date_maturity, dtemp)
+  date_maturity_juld <- csd_to_juld(date_maturity, dtemp)
+  
   
   # Calculate TSUM1 and TSUM2
   TSUM <- data.frame(TSUM1 = TSUM_anthesis - WOFOST_params$TSUMEM, 
                      TSUM2 = TSUM_maturity - TSUM_anthesis, 
                      crop_year = valid_years)
+  
+  TSUM$date_maturity <- as.Date(date_maturity_juld, 
+                                origin = paste0(TSUM$crop_year, "-01-01"))
   return(TSUM)
 }
