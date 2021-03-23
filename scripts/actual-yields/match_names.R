@@ -75,7 +75,7 @@ match_subregion_names <- function(gadm_sf, gadm_id_subregion,
 ### Main ------------------------------------------------------------------- ###
 
 EGY <- readRDS("data/shape-country/gadm36_EGY_1_sf.rds")
-ya <- read.csv("data/actual-yields/EGY_actual_yields.csv")
+ya <- read.csv("data/actual-yields/extracted/EGY_actual_yields.csv")
   
   
 EGY$all_NAMEs <- get_all_english_spellings(EGY)
@@ -89,10 +89,10 @@ best_matches <- match_subregion_names(gadm_sf = EGY,
 best_matches[best_matches$dist > 0, ]
 
 ## Modify gadm names
-# Noubaria is part of Beheira (Al Buhayrah) governorate 
 # Qalyoubia pick one: -> Qaliyubia 
 # Assuit ok -> Assiut   
 # Matrouh ok -> Matruh  
+# Noubaria is part of Beheira (Al Buhayrah) governorate
 
 ya$Governorates <- str_replace_all(ya$Governorates,
                                    c("Qalyoubia" = "Qaliyubia",
@@ -100,7 +100,7 @@ ya$Governorates <- str_replace_all(ya$Governorates,
                                      "Matruh" = "Matrouh",
                                      "Kafr-Elsheikh" = "Kafr-El-Sheikh",
                                      "New valley" = "New Valley",
-                                     "Noubaria" = "Al Buhayrah"))
+                                     "Noubaria" = "Behera"))
 
 egy_governorates <- unique(ya$Governorates)
 best_matches <- match_subregion_names(gadm_sf = EGY, 
@@ -115,8 +115,18 @@ stopifnot(zero_mismatch)
 best_matches <- best_matches %>% 
   rename(subregion = "national_stats") %>% 
   select(subregion, id_subregion)
+
+## One governorate was missing from actual yield data
+red_sea_governorate <- data.frame(subregion = "Al Bahr al Ahmar", 
+                                  id_subregion = "EGY.2_1")
+best_matches <- rbind(best_matches, red_sea_governorate)
+
 EGY_mod <- inner_join(EGY, 
                       best_matches, 
                       by = c("GID_1" = "id_subregion"))
+
+## Remove list column with all possible governorate names
+EGY_mod$all_NAMEs <- NULL
+
 saveRDS(EGY_mod,
-        "data/actual-yields/reshaped/gadm36_EGY_1_sf_mod.rds")
+        "data/actual-yields/extracted/gadm36_EGY_1_sf_mod.rds")

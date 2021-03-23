@@ -63,11 +63,14 @@ path_raw_files <- list.files("data/actual-yields/raw/",
                              full.names = TRUE)
 crop_year <- str_extract(path_raw_files, "(?<=\\(\\d{4}-)\\d{4}(?=\\))")
 
+## Nested list of list. 
+# 1st level: harvest year
+# 2nd level: dateset sheet
 lld <- map(path_raw_files, read_raw_file) %>% set_names(crop_year)
 
 
 ## Every file except from 2012-2013 contains two sheets that seem highly similar
-diff_sheets <- compare_sheets_by_year(lld)
+# diff_sheets <- compare_sheets_by_year(lld)
 ## Only minor differences:
 # 2011: One additional column 'Gov total' that seems to be the 
 # sum over all varieties and land type 
@@ -101,7 +104,7 @@ long_data %>%
 patterns <- c("yon" = "ton", "Ton" = "ton")
 long_data$variable <- long_data$variable %>% 
   str_replace_all(patterns) %>% 
-  str_remove_all("\\(|\\)|\\.|/") %>% 
+  str_remove_all("\\(|\\)|\\.|/") %>% # Remove parenthesis, dots and slashes
   str_replace("^Area ton$", "Area ha") %>% 
   str_replace(" ", "_")
 
@@ -115,6 +118,13 @@ long_data_international_units <- long_data %>%
 data_iu <- long_data_international_units %>% 
   pivot_wider(names_from = "variable",
               values_from = "value")
+
+## Add crop name
+data_iu$crop <- "Irrigated wheat"
+
+data_iu <- data_iu %>% 
+  select(crop, year, Governorates, everything()) %>% 
+  arrange(crop, year, Governorates)
 
 ## Save
 write_csv(data_iu, "data/actual-yields/extracted/EGY_actual_yields.csv")
