@@ -1,0 +1,85 @@
+---
+title: 'GYGA: Actual Yield Irrigated Wheat Egypt'
+output: html_document
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center")
+library(here)
+library(tidyverse)
+ya_governorates <- read.csv(here("data/actual-yields/cleaned/EGY_ya_cleaned.csv"))
+ya_bufferzones <- read.csv(here("data/actual-yields/aggregated/EGY_ya_aggregated.csv"))
+```
+
+<br>
+
+# Wheat yield per governorate
+
+```{r, fig.dim=c(6,8)}
+standard_error <- function(x) {
+  abs(qnorm(0.025)) * (sd(x, na.rm = TRUE) / sqrt(length(x)))
+}
+
+mean_yield_subregion <- ya_governorates %>% 
+  group_by(subregion) %>% 
+  summarise(mean_yield = mean(yield_tha, na.rm = TRUE),
+            ste_yield = standard_error(yield_tha)) %>% 
+  mutate(upperbound = mean_yield + ste_yield,
+         lowerbound = mean_yield - ste_yield)
+
+title_plot_yield_subregion <- sprintf("Egypt: Actual yields by Governorates (%d-%d)",
+                                      min(ya_governorates$year), max(ya_governorates$year))
+ggplot(ya_governorates, aes(x = subregion, y = yield_tha))+
+  geom_point(alpha = 0.5, na.rm = TRUE)+
+  coord_flip()+
+  geom_pointrange(data = mean_yield_subregion,
+                  aes(y = mean_yield, ymin = lowerbound, ymax = upperbound),
+                  colour = "darkred",
+                  alpha = 0.75)+
+  ggtitle(title_plot_yield_subregion)
+```
+
+### Outliers
+
+```{r}
+ya_governorates %>% 
+  filter(yield_tha < 2) %>% 
+  knitr::kable()
+```
+
+<br>
+<br>
+<br>
+
+# Yield, Production and area aggregated by buffer zones
+
+```{r}
+ya_bufferzones_to_plot <- ya_bufferzones %>% 
+  pivot_longer(cols = c("area_ha", "production_t", "yield_tha"),
+               names_to = "variable",
+               values_to = "value")
+
+ggplot(ya_bufferzones_to_plot, aes(x = station_name, y = value, fill = station_name))+
+  geom_violin(alpha = 0.5)+
+  geom_jitter(height = 0, width = 0.1, alpha = 0.75)+
+  facet_wrap(variable ~ ., scales = "free_y")+
+  ggtitle("Crop Statistics: Irrigated Wheat Egypt", )+
+  theme(legend.position = "none", 
+        plot.title = element_text(hjust = 0.5))
+
+```
+
+#### One outlier (bold row in table below)
+
+```{r}
+index_area_outlier_luxor <- which(ya_bufferzones$station_name == "Luxor" &
+                                    ya_bufferzones$area_ha > 1E5) 
+background_color <- scales::alpha("darkred", alpha = 0.5)
+ya_bufferzones %>% 
+  kableExtra::kbl() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::row_spec(row = index_area_outlier_luxor,
+                       bold = TRUE, 
+                       background = background_color)
+```
+

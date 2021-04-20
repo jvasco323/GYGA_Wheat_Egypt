@@ -6,13 +6,10 @@ suppressPackageStartupMessages(
   library(tidyverse)
 )
 
-standard_error <- function(x) {
-  abs(qnorm(0.025)) * (sd(x, na.rm = TRUE) / sqrt(length(x)))
-}
 
 # Load actual yields in international units (iu)
 data_iu <- as_tibble(read.csv(file.path("data/actual-yields/extracted", 
-                              "EGY_actual_yields.csv")))
+                                        "EGY_actual_yields.csv")))
 
 # Chandra confirmed that the 'Tota' land type category was the sum of
 # Old land + New land + Delta. There is no mention of delta in the raw data set
@@ -22,7 +19,7 @@ data_iu <- data_iu %>% filter(land_type == "Tota")
 
 # Aggregate variables for year and governorates (over variety)
 d <- data_iu %>%   
-group_by(year, Governorates) %>% 
+  group_by(year, Governorates) %>% 
   summarise(across(c(Area_ha, Prod_ton), sum, na.rm = TRUE),
             Yield_tonha = mean(Yield_tonha, na.rm = TRUE),
             .groups = "drop")
@@ -45,22 +42,6 @@ stopifnot(no_duplicate_subregion)
 # summary(d$prod_ton)
 # hist(d$yield_tha, breaks = 100)
 # hist(log(d$area_ha), breaks = 100)
-
-mean_yield_subregion <- d %>% 
-  group_by(subregion) %>% 
-  summarise(mean_yield = mean(yield_tha, na.rm = TRUE),
-            ste_yield = standard_error(yield_tha)) %>% 
-  mutate(upperbound = mean_yield + ste_yield,
-         lowerbound = mean_yield - ste_yield)
-
-plot_yield_subregion <- ggplot(d, aes(x = subregion, y = yield_tha))+
-  geom_point(alpha = 0.5, na.rm = TRUE)+
-  coord_flip()+
-  geom_pointrange(data = mean_yield_subregion,
-                  aes(y = mean_yield, ymin = lowerbound, ymax = upperbound),
-                  colour = "darkred",
-                  alpha = 0.75)
-plot_yield_subregion
 
 d %>% 
   filter(yield_tha < 2)
