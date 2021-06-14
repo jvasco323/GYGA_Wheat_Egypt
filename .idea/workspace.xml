@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f35b621-3b6b-46ef-99d5-9d724de97076" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/GYGA_Egypt_Wheat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GYGA_Egypt_Wheat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/weather_agera5_NileDelta.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-inputs/weather_agera5_NileDelta.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/weather_agera5_UpperEgypt.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-inputs/weather_agera5_UpperEgypt.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/crop-management/sowing_date.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/crop-management/sowing_date.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/Agrom_Wheat_NileDelta_2007.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/Agrom_Wheat_NileDelta_2008.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/Agrom_Wheat_UpperEgypt_2007.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/Agrom_Wheat_UpperEgypt_2008.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/crop-parameters/TSUM_Egypt.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-inputs/crop-parameters/TSUM_Egypt.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2007.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2008.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2009.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2009.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2010.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2010.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2011.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2011.csv" afterDir="false" />
@@ -15,9 +23,9 @@
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2015.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2015.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2016.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2016.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2017.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2017.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2018.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2019.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2007.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2008.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2009.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2009.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2010.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2010.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2011.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2011.csv" afterDir="false" />
@@ -27,17 +35,14 @@
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2015.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2015.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2016.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2016.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2017.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2017.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2018.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_UpperEgypt_2019.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_NileDelta.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_NileDelta.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_UpperEgypt.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_UpperEgypt.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_NileDelta.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_UpperEgypt.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_egypt.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_egypt.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/10. Summary Plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/10. Summary Plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/5. Gridded Weather Data.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/5. Gridded Weather Data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/6. Crop Parameters.R" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/6. Crop Parameters.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/8. Agromanagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/8. Agromanagement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/9. Run WOFOST.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/9. Run WOFOST.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/crop_parameters_funcs.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/10. Summary Plots.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/6. Crop Parameters.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/7. Site Parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/8. Agromanagement.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/9. Run WOFOST.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +55,13 @@
   <component name="ProjectId" id="1f2ub2dZNEe2GpqAPfdgdgtBOfX" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
