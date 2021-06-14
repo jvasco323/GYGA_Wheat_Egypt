@@ -80,7 +80,7 @@ for year, crop, variety, site in product(years, crops, varie, sites):
         parameters.set_override("AMAXTB", [0.00, 45.0, 1.30, 45.0, 2.00, 7.5])
     else:
         parameters.set_override("TSUM1", 1387)  # 1405)
-        parameters.set_override("TSUM2", 735)   # 937+500)
+        parameters.set_override("TSUM2", 735 + 600)   # 937+500)
         parameters.set_override("SLATB", [0.0, 0.0037, 0.3, 0.0037, 0.9, 0.0037, 1.45, 0.0037, 2.0, 0.0037])
         parameters.set_override("SPAN", 35)
         # parameters.set_override("AMAXTB", [0.00, 35.0, 1.30, 35.0, 2.00, 5.0])
@@ -97,13 +97,13 @@ for year, crop, variety, site in product(years, crops, varie, sites):
     output_daily['year'] = year
     output_daily['crop'] = crop
     output_daily['site'] = site
-    output_daily.to_csv(os.path.join(output_dir, './daily_{crop}_{site}_{year}.csv'.format(year=year, crop=crop, site=site)))
+    output_daily.to_csv(os.path.join(output_dir, './daily_{crop}_{site}_{year}_updated.csv'.format(year=year, crop=crop, site=site)))
     output_summary = pd.DataFrame(wofost.get_summary_output())
     output_summary['year'] = year
     output_summary['crop'] = crop
     output_summary['site'] = site
     final = final.append(output_summary)
-final.to_csv(os.path.join(output_dir, './summary_wheat_egypt.csv'))
+final.to_csv(os.path.join(output_dir, './summary_wheat_egypt_updated.csv'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # PLOT PARAMETERS
