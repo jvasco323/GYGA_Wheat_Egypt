@@ -7,7 +7,7 @@ import os
 # ----------------------------------------------------------------------------------------------------------------------
 # Specify directory
 
-output_dir = r'C:\# Jvasco\Working Papers\# Global Yield Gap Analysis\GYGA_Egypt_Wheat\data\wofost-inputs'
+output_dir = r'D:\# Jvasco\Working Papers\# CIMMYT Database\GYGA Global Yield Gap Atlas\GYGA_Egypt_Wheat\data\wofost-inputs'
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Site template
