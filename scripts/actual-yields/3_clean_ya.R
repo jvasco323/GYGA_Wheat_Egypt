@@ -43,10 +43,8 @@ stopifnot(no_duplicate_subregion)
 # hist(d$yield_tha, breaks = 100)
 # hist(log(d$area_ha), breaks = 100)
 
-d %>% 
-  filter(yield_tha < 2)
-d %>% 
-  filter(is.na(yield_tha))
+d <- d %>% 
+  filter(yield_tha > 2)
 
 ## Add crop name
 d$crop <- "Irrigated wheat"
