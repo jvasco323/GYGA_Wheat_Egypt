@@ -81,12 +81,12 @@ for year, crop, variety, site in product(years, crops, varie, sites):
         parameters.set_override("TSUM1", 1778)  # original = 1639
         parameters.set_override("TSUM2", 1233)  # original = 1111
         parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])
-        parameters.set_override("AMAXTB", [0.00, 42.0, 1.30, 42.0, 2.00, 7.5])
+        parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])
     else:
         parameters.set_override("TSUM1", 1235)  # original = 1387  # excel file = 1546
         parameters.set_override("TSUM2", 1040)  # original = 735  # excel file = 909
         parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])
-        parameters.set_override("AMAXTB", [0.00, 42.0, 1.30, 42.0, 2.00, 7.5])
+        parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])
     print('{site} . . . TSUM1 = {tsum1} . . . TSUM2 = {tsum2}'.format(site=site, tsum1=parameters['TSUM1'], tsum2=parameters['TSUM2']))
     # ------------------------------------------------------------------------------------------------------------------
     # Run the model
