@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f35b621-3b6b-46ef-99d5-9d724de97076" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wofost-inputs/crop-parameters/TSUM_Egypt.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-inputs/crop-parameters/TSUM_Egypt.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2009.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2009.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2010.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/daily_wheat_NileDelta_2010.csv" afterDir="false" />
@@ -27,8 +28,10 @@
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_UpperEgypt.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_UpperEgypt.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_egypt.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/summary_wheat_egypt.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/wofost-outputs/yield gap closure.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/data/wofost-outputs/yield gap closure.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/GYGA_methodology_Egypt_final.odt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/10. Run WOFOST.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/10. Run WOFOST.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/11. Summary Plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/11. Summary Plots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/7. Crop Parameters.R" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/7. Crop Parameters.R" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

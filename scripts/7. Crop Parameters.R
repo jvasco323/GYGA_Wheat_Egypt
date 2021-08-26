@@ -20,7 +20,7 @@ source("./scripts/# crop_parameters_funcs.R")
 # data for Nile Delta from Wheat Dept, ARC
 # data for Upper Egypt from the Word Document
 l_int_D1 <- list(nile_delta = c(95, 115), upper_egpyt = c(69, 80))
-l_int_D2 <- list(nile_delta = c(52, 54), upper_egpyt = c(60, 62))
+l_int_D2 <- list(nile_delta = c(52, 54), upper_egpyt = c(140-80, 131-69))
 
 # original values provided in crop management form
 #l_int_D1 <- list(nile_delta = c(90, 105), upper_egpyt = c(80, 90))

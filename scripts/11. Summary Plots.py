@@ -34,8 +34,8 @@ f.subplots_adjust(wspace=wspace, hspace=hspace)
 N = 2
 ind = np.arange(N)  # the x locations for the groups
 width = 0.75        # the width of the bars
-Ya = list([6.8, 6.3])
-Yw = list([9.2-6.8, 8-6.2])
+Ya = list([6.8, 6.2])
+Yw = list([(8.6*1.135)-6.8, (7.8*1.135)-6.2])
 rects1a = ax1.bar(ind, Ya, width, color='slateblue', edgecolor=['black', 'black', 'black', 'black'], label='Ya')
 rects1e = ax1.bar(ind, Yw, width, bottom=Ya, color='gold', edgecolor=['black', 'black', 'black', 'black'], label='Yp')
 ax1.axhline(1, color='gainsboro', linewidth=0.75, linestyle='-', zorder=0)
@@ -47,7 +47,7 @@ ax1.axhline(6, color='gainsboro', linewidth=0.75, linestyle='-', zorder=0)
 ax1.axhline(7, color='gainsboro', linewidth=0.75, linestyle='-', zorder=0)
 ax1.axhline(8, color='gainsboro', linewidth=0.75, linestyle='-', zorder=0)
 ax1.axhline(9, color='gainsboro', linewidth=0.75, linestyle='-', zorder=0)
-ax1.set_ylabel('Yield gap closure (t DM/ha)', family='sans-serif', fontsize=14, color='black', fontweight='bold')
+ax1.set_ylabel('Yield gap closure (t FM/ha)', family='sans-serif', fontsize=14, color='black', fontweight='bold')
 ax1.set_ylim([0, 10])
 ax1.set_title('')
 ax1.set_xticks(ind)
@@ -58,7 +58,7 @@ ax1.set_facecolor('whitesmoke')
 N = 2
 ind = np.arange(N)  # the x locations for the groups
 width = 0.75        # the width of the bars
-Ya = list([100*6.8/9.2, 100*6.2/8])
+Ya = list([100*6.8/(8.6*1.135), 100*6.2/(7.8*1.135)])
 Yw = list([100, 100])
 rects1a = ax2.bar(ind, Ya, width, color='slateblue', edgecolor=['black', 'black', 'black', 'black'], label='Ya')
 rects1e = ax2.bar(ind, 100, width, bottom=Ya, color='gold', edgecolor=['black', 'black', 'black', 'black'], label='Yp')

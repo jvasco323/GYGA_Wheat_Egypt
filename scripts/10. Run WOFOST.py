@@ -60,8 +60,8 @@ for year, crop, variety, site in product(years, crops, varie, sites):
     crop_parameters['IOX'] = 0
     crop_parameters['IDSL'] = 0
     crop_parameters["REALLOC_DVS"] = 1.3
-    crop_parameters["REALLOC_STEM_FRACTION"] = 0.1
-    crop_parameters["REALLOC_LEAF_FRACTION"] = 0.8
+    crop_parameters["REALLOC_STEM_FRACTION"] = 0.20
+    crop_parameters["REALLOC_LEAF_FRACTION"] = 0.90
     crop_parameters["REALLOC_STEM_RATE"] = 0.045
     crop_parameters["REALLOC_LEAF_RATE"] = 0.045
     crop_parameters["REALLOC_LOSS"] = 0.06
@@ -78,15 +78,16 @@ for year, crop, variety, site in product(years, crops, varie, sites):
     # ------------------------------------------------------------------------------------------------------------------
     # Override TSUMs per weather station
     if site == 'NileDelta':
-        parameters.set_override("TSUM1", 1778)  # original = 1639
-        parameters.set_override("TSUM2", 1233)  # original = 1111
-        parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])
-        parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])
+        parameters.set_override("TSUM1", 1700)  # final/option 1 = 1778     option 2 = 1700
+        parameters.set_override("TSUM2", 1100)  # final/option 1 = 1233     option 2 = 1100
+        # parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])  # never used
+        # parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])  # never used
     else:
-        parameters.set_override("TSUM1", 1235)  # original = 1387  # excel file = 1546
-        parameters.set_override("TSUM2", 1040)  # original = 735  # excel file = 909
-        parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])
-        parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])
+        parameters.set_override("TSUM1", 1300)  # final/option 1 = 1235     option 2 = 1300
+        parameters.set_override("TSUM2", 1100)  # final/option 1 = 1040     option 2 = 1100
+        # parameters.set_override("SPAN", 37)  # never used
+        # parameters.set_override("SLATB", [0.0, 0.0027, 0.3, 0.0027, 0.9, 0.0027, 1.45, 0.0027, 2.0, 0.0027])  # never used
+        # parameters.set_override("AMAXTB", [0.00, 38.0, 1.30, 38.0, 2.00, 7.5])  # never used
     print('{site} . . . TSUM1 = {tsum1} . . . TSUM2 = {tsum2}'.format(site=site, tsum1=parameters['TSUM1'], tsum2=parameters['TSUM2']))
     # ------------------------------------------------------------------------------------------------------------------
     # Run the model
