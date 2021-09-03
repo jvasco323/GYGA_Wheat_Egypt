@@ -47,7 +47,7 @@ wheat <- raster::raster("./data/crop-mask/global harv area/spam2010V1r1_global_H
 
 # Designated climate zones
 dcz <- rgygaGIS::select_climate_zones(country_polygons = country_polygons, crop_spam = wheat, parallel = FALSE)
-p_dcz <- mapview(dcz, zcol = "pnha")
+p_dcz <- mapview(dcz, zcol = "pcz_nha")
 
 # Subset crop mask to match country polygons bounding box
 crop_mask <- raster::crop(x = wheat , y = country_polygons)
@@ -65,6 +65,7 @@ country_polygons <-
     return(country)
   }) %>%
   reduce(rbind)
+st_crs(country_polygons) <- st_crs(climate_zones)
 
 # Create polygon layer with climate zones by country --> this takes a while
 climate_zones_cty <- 
@@ -74,7 +75,7 @@ climate_zones_cty <-
 
 # Plot climate zones
 climate_zones_cty$GYGA_CZ <- as.factor(climate_zones_cty$GYGA_CZ)
-mapview(climate_zones_cty, zcol = "GYGA_CZ", legend = FALSE)
+mapview(climate_zones_cty, zcol = "GYGA_CZ", legend = T)
 
 # Extract crop harvested area at climate zone scale
 climate_zones_cty <- 
@@ -85,6 +86,9 @@ climate_zones_cty <-
     return(climate_zone)
   }) %>%
   reduce(rbind) 
+
+climate_zone_cty$cz_nha <- as.numeric(raster::extract(crop_mask, climate_zone_cty, fun = sum, na.rm = TRUE))
+plot(climate_zones_cty)
 
 # Keep climate zones with more than 5% of national harvested area
 percent = 0.05
